@@ -15,6 +15,8 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 
+#source: https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
+
 # Load dataset
 url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv"
 names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
@@ -22,23 +24,34 @@ dataset = read_csv(url, names=names)
 
 # shape
 print("rows + Columns", dataset.shape)
-
-#take a peak at the head 
-
-
-# head
-
-
 # head
 print(dataset.head(20))
-1
-2
-3
-	
-
-# head
-print(dataset.head(20))
-
-
-#see summary of each attribute 
+# see summary of each attribute 
 print(dataset.describe())
+# class distribution
+print(dataset.groupby('class').size())
+
+# data visualisations 
+# univariate plots - shows the data and summarizes its distribution
+# to better understand each attribute 
+# multivariate plots - better understand the relationship between attributes 
+
+
+# univariate plot - box and whisker
+dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+pyplot.show()
+
+# univariate plot - histogram
+dataset.hist()
+pyplot.show()
+
+# multivariate plot - scatterplot
+scatter_matrix(dataset)
+pyplot.show()
+
+# create a validation dataset, to verify that the model is all good
+# Split-out validation dataset
+array = dataset.values
+X = array[:,0:4]
+y = array[:,4]
+X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
